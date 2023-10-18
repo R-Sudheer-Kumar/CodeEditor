@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <style>
+        .editor 
+        {
+           font-size: 20px;
+            height:400px;
+            
+        }
+        button
+        {
+            font-size: 30px;
+            margin:50px;
+        }
+    </style>
+
+    <script>
+        let editor;
+        function a()
+        {
+            editor = ace.edit("editor");
+            editor.setTheme("ace/theme/dracula");
+            editor.session.setMode("ace/mode/python");
+        }
+
+        function execute()
+        {
+            $.ajax(
+                {
+                    url:'/checkf',
+                    method:'POST',
+                    data:
+                    {
+                        'code': editor.getSession().getValue()
+                    },
+                    success: function(response)
+                    {
+                        console.log(response);
+                    },
+                    error:function(error)
+                    {
+                        console.log(error);
+                    }
+                }
+            );
+        }
+    </script>
+</head>
+<body onload= "a()">
+    <h3 class="Question">Answer the following Question</h3>
+    <div class="editor-container">
+        <div class="editor" id="editor"></div>
+    </div>
+    <button onclick="execute() ">Run</button>
+
+    <script src="static/lib/ace.js"></script>
+    <script src="static/lib/theme-dracula.js"></script>
+    <script src="static/lib/mode-python.js"></script>
+    <script src="static/lib/mode-c_cpp.js"></script>
+    <script src="static/lib/mode-java.js"></script>
+ 
+</body>
+</html>
